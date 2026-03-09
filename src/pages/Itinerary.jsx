@@ -1,5 +1,10 @@
 import { useParams, Link } from 'react-router-dom'
-import { MapPin, Users, Clock, AlertCircle, Phone, Zap } from 'lucide-react'
+import { 
+  MapPin, Users, Clock, AlertCircle, Phone, Zap, 
+  CloudSun, ShieldCheck, Coffee, Camera, Thermometer, 
+  Briefcase, MessageSquare, Navigation, Lock, QrCode,
+  RefreshCcw, HelpCircle, PhoneCall, Info
+} from 'lucide-react'
 import { useBooking } from '../context/BookingContext'
 
 export default function Itinerary() {
@@ -9,218 +14,224 @@ export default function Itinerary() {
 
   if (!booking) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-3xl font-bold text-gray-900 mb-4">Booking not found</h1>
-          <Link to="/booking" className="text-secondary font-semibold">
-            Create a new booking
-          </Link>
+      <div className="min-h-screen flex items-center justify-center bg-[#F8F5F2] p-4">
+        <div className="text-center p-8 bg-white rounded-3xl shadow-xl max-w-sm w-full">
+          <AlertCircle className="mx-auto text-red-400 mb-4" size={48} />
+          <h1 className="text-2xl font-bold text-[#355E3B] mb-2">Booking Not Found</h1>
+          <p className="text-gray-500 mb-6 text-sm">We couldn't locate reference #BK{id}</p>
+          <Link to="/booking" className="block w-full py-3 bg-[#E76F51] text-white rounded-xl font-bold">Return to Booking</Link>
         </div>
       </div>
     )
   }
 
-  const tripDetails = {
-    route: 'Nairobi → Maasai Mara',
-    distance: '280km',
-    time: '5 hours',
-    highlights: [
-      'Depart from Nairobi at 6:00 AM',
-      'Stop at Nairobi National Park (1 hour)',
-      'Lunch break in Narok town',
-      'Enter Maasai Mara (5:00 PM)',
-      'Evening game drive',
-    ],
-    wildlife: ['Lions', 'Elephants', 'Giraffes', 'Zebras', 'Wildebeest'],
-    facts: [
-      'Maasai Mara is home to over 95 mammal species',
-      'The Great Migration happens annually from July to September',
-      'The reserve covers approximately 1,510 km²',
-    ],
-    culture: [
-      'Meet Maasai warriors and learn about their traditions',
-      'Visit a traditional Maasai village',
-      'Experience authentic Maasai cuisine',
-    ],
-  }
-
-  const driver = {
-    name: 'Joseph Kipchoge',
-    rating: 4.9,
-    image: 'https://images.pexels.com/photos/1181690/pexels-photo-1181690.jpeg',
-    experience: '8 years',
-    vehicle: 'Toyota Land Cruiser V8 - KCA 123Z',
-  }
-
-  const travelers = [
-    { name: 'You', status: 'Confirmed' },
-    { name: 'Sarah Johnson', status: 'Confirmed' },
-    { name: 'Michael Brown', status: 'Confirmed' },
+  const tripTimeline = [
+    { time: '06:00 AM', activity: 'VIP Pickup', detail: `From ${booking.preferences?.pickupLocation || 'Nairobi'}`, icon: <MapPin size={18}/> },
+    { time: '08:30 AM', activity: 'Rift Valley View', detail: 'Photo session & snacks', icon: <Camera size={18}/> },
+    { time: '01:00 PM', activity: 'Transit Lunch', detail: 'Local Kenyan Cuisine', icon: <Coffee size={18}/> },
+    { time: '05:30 PM', activity: 'Sunset Drive', detail: 'Game viewing begins', icon: <Navigation size={18}/> },
   ]
 
   return (
-    <div className="page-enter">
-      {/* Header */}
-      <section className="bg-gradient-to-r from-secondary to-secondary/80 text-white py-8">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-3xl md:text-4xl font-black mb-2">Your Itinerary</h1>
-          <p>Booking Reference: #BK{booking.id}</p>
+    <div className="bg-[#F8F5F2] min-h-screen font-sans">
+      {/* 1. SECURE HEADER */}
+      <section className="bg-[#355E3B] text-white pt-12 pb-20 md:pt-20 md:pb-32 px-4">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+            <div className="space-y-2">
+              <div className="inline-flex items-center gap-2 bg-white/10 px-3 py-1 rounded-full border border-white/10">
+                <Zap size={14} className="text-[#E76F51]" />
+                <span className="text-[10px] font-black uppercase tracking-widest">{booking.destination}</span>
+              </div>
+              <h1 className="text-3xl md:text-5xl font-black italic leading-tight">Itinerary Control</h1>
+              <p className="text-white/60 text-sm font-medium">Booking Reference: <span className="text-white">#TPM-{booking.id}</span></p>
+            </div>
+            <div className="flex flex-wrap gap-3">
+              <button className="flex-1 md:flex-none px-6 py-3 bg-[#E76F51] rounded-xl font-bold text-sm shadow-lg hover:brightness-110 active:scale-95 transition-all">
+                Offline Access
+              </button>
+              <button className="p-3 bg-white/10 rounded-xl border border-white/20">
+                <MessageSquare size={20} />
+              </button>
+            </div>
+          </div>
         </div>
       </section>
 
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
-        {/* Status Alert */}
-        {booking.status === 'pending' && (
-          <div className="bg-yellow-50 border-l-4 border-yellow-400 p-6 rounded-lg card-enter">
-            <div className="flex items-center gap-3">
-              <AlertCircle className="text-yellow-600" size={24} />
-              <div>
-                <h3 className="font-bold text-yellow-900">Payment Pending</h3>
-                <p className="text-sm text-yellow-700">Complete your payment to confirm this booking.</p>
+      {/* 2. MAIN CONTENT GRID */}
+      <section className="max-w-7xl mx-auto px-4 -mt-10 md:-mt-16 pb-12">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+          
+          {/* LEFT COLUMN: LOGISTICS & PAYMENT */}
+          <div className="lg:col-span-8 space-y-6">
+            
+            {/* Weather & Advisory */}
+            <div className="bg-white rounded-3xl p-6 md:p-8 shadow-sm border border-gray-100 grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="flex items-center gap-4">
+                <div className="p-3 bg-orange-50 rounded-2xl text-[#E76F51]"><CloudSun size={28} /></div>
+                <div>
+                  <h3 className="font-bold text-[#355E3B] text-sm md:text-base">Local Weather</h3>
+                  <p className="text-xs text-gray-400">26°C • Sunny Intervals</p>
+                </div>
               </div>
-              <Link
-                to={`/escrow-qr/${booking.id}`}
-                className="ml-auto px-4 py-2 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 font-semibold whitespace-nowrap"
-              >
-                Pay Now
-              </Link>
+              <div className="flex items-center gap-4 md:border-l md:pl-6 border-gray-100">
+                <div className="p-3 bg-blue-50 rounded-2xl text-blue-600"><Thermometer size={28} /></div>
+                <div>
+                  <h3 className="font-bold text-[#355E3B] text-sm md:text-base">Gear Advisory</h3>
+                  <p className="text-xs text-gray-400">Hat and sunscreen essential</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Timeline */}
+            <div className="bg-white rounded-3xl p-6 md:p-10 shadow-sm border border-gray-100">
+              <h2 className="text-xl font-black text-[#355E3B] mb-8 flex items-center gap-2">
+                <Clock className="text-[#E76F51]" size={20} /> Trip Logistics
+              </h2>
+              <div className="space-y-2">
+                {tripTimeline.map((item, i) => (
+                  <div key={i} className="group relative flex gap-4 md:gap-8 pb-8">
+                    {i !== tripTimeline.length - 1 && (
+                      <div className="absolute left-[20px] md:left-[23px] top-10 w-[2px] h-full bg-gray-100" />
+                    )}
+                    <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-gray-50 flex items-center justify-center text-[#355E3B] z-10 border border-gray-100 shrink-0">
+                      {item.icon}
+                    </div>
+                    <div className="flex-1">
+                      <span className="text-[10px] font-black text-[#E76F51] uppercase">{item.time}</span>
+                      <h4 className="font-bold text-[#355E3B] text-sm md:text-base">{item.activity}</h4>
+                      <p className="text-xs text-gray-500 leading-relaxed">{item.detail}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* ESCROW PAYMENT SECTION */}
+            <div className="bg-white rounded-[2.5rem] p-8 md:p-10 shadow-sm border-2 border-[#E76F51]/20 overflow-hidden relative">
+              <div className="flex flex-col md:flex-row justify-between items-start gap-6 mb-8">
+                <div>
+                  <div className="flex items-center gap-2 mb-2">
+                    <Lock className="text-[#E76F51]" size={20} />
+                    <h2 className="text-2xl font-black text-[#355E3B]">Secure Escrow Payment</h2>
+                  </div>
+                  <p className="text-gray-500 text-sm max-w-md italic">
+                    Funds are held in a secure vault and only released after your tour begins.
+                  </p>
+                </div>
+                <div className="bg-[#F8F5F2] p-4 rounded-2xl border border-gray-100 text-center w-full md:w-auto">
+                    <p className="text-[10px] font-black uppercase text-gray-400">Total Price</p>
+                    <p className="text-2xl font-black text-[#355E3B]">KES {booking.totalPrice?.toLocaleString()}</p>
+                </div>
+              </div>
+
+              {/* Policy Explanation */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+                <div className="space-y-2">
+                    <p className="text-xs font-bold text-[#355E3B] flex items-center gap-2">
+                      <ShieldCheck size={14} className="text-green-600"/> 1. Secure Deposit
+                    </p>
+                    <p className="text-[10px] text-gray-400 leading-relaxed">Pay via M-Pesa or Card. Funds stay with us, not the operator yet.</p>
+                </div>
+                <div className="space-y-2">
+                    <p className="text-xs font-bold text-[#355E3B] flex items-center gap-2">
+                      <QrCode size={14} className="text-[#E76F51]"/> 2. Start Code
+                    </p>
+                    <p className="text-[10px] text-gray-400 leading-relaxed">The driver must scan your unique code at pickup to trigger fund release.</p>
+                </div>
+                <div className="space-y-2">
+                    <p className="text-xs font-bold text-[#355E3B] flex items-center gap-2">
+                      <RefreshCcw size={14} className="text-blue-500"/> 3. Easy Refunds
+                    </p>
+                    <p className="text-[10px] text-gray-400 leading-relaxed">If the operator doesn't show up, your refund is processed automatically.</p>
+                </div>
+              </div>
+
+              {/* Pay Now & QR Scan area */}
+              <div className="flex flex-col md:flex-row items-center gap-8 p-6 bg-[#355E3B]/5 rounded-3xl border border-[#355E3B]/10">
+                <div className="bg-white p-4 rounded-2xl shadow-sm border border-gray-100">
+                    <QrCode size={100} className="text-[#355E3B]" />
+                    <p className="text-[8px] text-center font-bold mt-2 text-gray-400 uppercase">Scan to Secure</p>
+                </div>
+                <div className="flex-1 space-y-4 text-center md:text-left">
+                    <h4 className="font-bold text-[#355E3B] text-sm">Seal your booking with Escrow</h4>
+                    <Link to={`/pay/${booking.id}`} className="inline-flex items-center gap-2 px-8 py-4 bg-[#E76F51] text-white rounded-2xl font-black shadow-lg hover:scale-105 transition-all text-sm">
+                        Pay Now via Escrow <ShieldCheck size={18} />
+                    </Link>
+                </div>
+              </div>
             </div>
           </div>
-        )}
 
-        {/* Trip Overview */}
-        <div className="bg-white rounded-xl shadow-md p-6 card-enter">
-          <h2 className="text-2xl font-black text-primary mb-6">Trip Overview</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 rounded-lg bg-secondary/10 flex items-center justify-center">
-                <MapPin className="text-secondary" size={24} />
+          {/* RIGHT COLUMN: DRIVER, PACKING & SUPPORT */}
+          <div className="lg:col-span-4 space-y-6">
+            
+            {/* Driver Profile */}
+            <div className="bg-[#355E3B] rounded-3xl p-6 text-white shadow-xl">
+              <div className="flex items-center gap-4 mb-6">
+                <img src="https://images.pexels.com/photos/1181690/pexels-photo-1181690.jpeg" className="w-14 h-14 rounded-xl object-cover" alt="Guide" />
+                <div>
+                  <h3 className="font-bold text-sm">Joseph Kipchoge</h3>
+                  <p className="text-[10px] text-white/50 uppercase font-black">Pro Facilitator</p>
+                </div>
               </div>
-              <div>
-                <p className="text-sm text-gray-600">Route</p>
-                <p className="font-bold">{tripDetails.route}</p>
+              <div className="bg-white/5 p-4 rounded-xl border border-white/10 mb-6 space-y-3">
+                <div className="flex justify-between text-[10px]"><span className="text-white/40 uppercase">Vehicle</span><span className="font-bold">KCA 123Z</span></div>
+                <div className="flex justify-between text-[10px]"><span className="text-white/40 uppercase">Guide Language</span><span className="font-bold text-[#E76F51]">{booking.preferences?.language || 'English'}</span></div>
+              </div>
+              <button className="w-full py-3 bg-white text-[#355E3B] rounded-xl font-bold text-xs flex items-center justify-center gap-2">
+                <Phone size={14} /> Contact Guide
+              </button>
+            </div>
+
+            {/* Refund Policy Summary */}
+            <div className="bg-white rounded-3xl p-6 shadow-sm border border-gray-100">
+              <h3 className="font-bold text-[#355E3B] mb-4 text-sm flex items-center gap-2 uppercase tracking-tight">
+                <RefreshCcw size={16} className="text-[#E76F51]" /> Cancellation Policy
+              </h3>
+              <div className="space-y-3">
+                <div className="flex items-start gap-3">
+                  <div className="w-1.5 h-1.5 rounded-full bg-green-500 mt-1.5 shrink-0" />
+                  <p className="text-[11px] text-gray-600 font-medium">100% Refund: Cancel 48hrs before</p>
+                </div>
+                <div className="flex items-start gap-3">
+                  <div className="w-1.5 h-1.5 rounded-full bg-orange-400 mt-1.5 shrink-0" />
+                  <p className="text-[11px] text-gray-600 font-medium">50% Refund: Cancel 24hrs before</p>
+                </div>
+                <div className="flex items-center gap-2 mt-4 pt-3 border-t border-gray-50 text-[10px] text-gray-400 italic">
+                  <Info size={12} /> Full terms apply
+                </div>
               </div>
             </div>
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 rounded-lg bg-accent/10 flex items-center justify-center">
-                <Zap className="text-accent" size={24} />
-              </div>
-              <div>
-                <p className="text-sm text-gray-600">Distance</p>
-                <p className="font-bold">{tripDetails.distance}</p>
-              </div>
-            </div>
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center">
-                <Clock className="text-primary" size={24} />
-              </div>
-              <div>
-                <p className="text-sm text-gray-600">Duration</p>
-                <p className="font-bold">{tripDetails.time}</p>
+
+            {/* Packing List */}
+            <div className="bg-white rounded-3xl p-6 shadow-sm border border-gray-100">
+              <h3 className="font-bold text-[#355E3B] mb-4 text-sm flex items-center gap-2">
+                <Briefcase size={16} className="text-[#355E3B]" /> Safari Pack
+              </h3>
+              <div className="grid grid-cols-1 gap-2">
+                {['Camera Gear', 'Travel Docs', 'Neutral Clothes'].map((item, i) => (
+                  <div key={i} className="flex items-center gap-3 p-3 bg-gray-50 rounded-xl">
+                    <div className="w-4 h-4 rounded border border-gray-300 shrink-0" />
+                    <span className="text-xs font-medium text-gray-600">{item}</span>
+                  </div>
+                ))}
               </div>
             </div>
+
+            {/* Customer Support */}
+            <div className="bg-white rounded-3xl p-6 shadow-sm border border-gray-100 text-center">
+              <div className="w-12 h-12 bg-[#355E3B]/10 rounded-full flex items-center justify-center mx-auto mb-3 text-[#355E3B]">
+                <HelpCircle size={24} />
+              </div>
+              <h3 className="font-bold text-[#355E3B] text-sm">Support Hub</h3>
+              <p className="text-[10px] text-gray-400 mt-1 mb-4">24/7 Logistics & Safety Help</p>
+              <button className="w-full py-3 border-2 border-[#355E3B] text-[#355E3B] rounded-xl font-bold text-[10px] flex items-center justify-center gap-2 hover:bg-[#355E3B] hover:text-white transition-all">
+                  <PhoneCall size={12} /> Contact Helpline
+              </button>
+            </div>
+
           </div>
-        </div>
-
-        {/* Highlights */}
-        <div className="bg-white rounded-xl shadow-md p-6 card-enter">
-          <h3 className="text-xl font-black text-primary mb-4">Trip Highlights</h3>
-          <ul className="space-y-3">
-            {tripDetails.highlights.map((highlight, i) => (
-              <li key={i} className="flex items-center gap-3">
-                <div className="w-2 h-2 rounded-full bg-secondary flex-shrink-0" />
-                <span>{highlight}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        {/* Wildlife & Culture */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="bg-white rounded-xl shadow-md p-6 card-enter">
-            <h3 className="text-xl font-black text-primary mb-4">🦁 Expected Wildlife</h3>
-            <div className="flex flex-wrap gap-2">
-              {tripDetails.wildlife.map((animal, i) => (
-                <span
-                  key={i}
-                  className="px-3 py-1 bg-secondary/10 text-secondary rounded-full text-sm font-semibold"
-                >
-                  {animal}
-                </span>
-              ))}
-            </div>
-            <div className="mt-4 space-y-2">
-              {tripDetails.facts.map((fact, i) => (
-                <p key={i} className="text-sm text-gray-700">• {fact}</p>
-              ))}
-            </div>
-          </div>
-
-          <div className="bg-white rounded-xl shadow-md p-6 card-enter">
-            <h3 className="text-xl font-black text-primary mb-4">🌍 Cultural Experiences</h3>
-            <ul className="space-y-3">
-              {tripDetails.culture.map((exp, i) => (
-                <li key={i} className="flex items-center gap-3">
-                  <div className="w-2 h-2 rounded-full bg-accent flex-shrink-0" />
-                  <span className="text-gray-700">{exp}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-
-        {/* Driver Info */}
-        <div className="bg-white rounded-xl shadow-md p-6 card-enter">
-          <h3 className="text-xl font-black text-primary mb-6">Your Driver</h3>
-          <div className="flex items-center gap-6 mb-6 pb-6 border-b">
-            <img
-              src={driver.image}
-              alt={driver.name}
-              className="w-20 h-20 rounded-full object-cover"
-            />
-            <div>
-              <h4 className="font-bold text-lg">{driver.name}</h4>
-              <p className="text-gray-600 text-sm">{driver.experience} experience</p>
-              <p className="text-yellow-500 font-semibold">⭐ {driver.rating}</p>
-            </div>
-          </div>
-          <div className="space-y-3">
-            <div>
-              <p className="text-sm text-gray-600">Vehicle</p>
-              <p className="font-semibold">{driver.vehicle}</p>
-            </div>
-            <button className="flex items-center gap-2 px-4 py-2 bg-secondary text-white rounded-lg hover:bg-secondary/90 font-semibold w-full justify-center">
-              <Phone size={18} />
-              Contact Driver
-            </button>
-          </div>
-        </div>
-
-        {/* Other Travelers */}
-        <div className="bg-white rounded-xl shadow-md p-6 card-enter">
-          <h3 className="text-xl font-black text-primary mb-4 flex items-center gap-2">
-            <Users size={24} />
-            Other Travelers
-          </h3>
-          <div className="space-y-3">
-            {travelers.map((traveler, i) => (
-              <div key={i} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                <span className="font-semibold">{traveler.name}</span>
-                <span className="px-2 py-1 bg-green-100 text-green-700 text-xs font-semibold rounded">
-                  {traveler.status}
-                </span>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Helpline */}
-        <div className="bg-gradient-to-r from-secondary/10 to-accent/10 rounded-xl p-8 text-center card-enter">
-          <h3 className="text-2xl font-black text-primary mb-4">Need Help?</h3>
-          <p className="text-gray-700 mb-6">Our 24/7 customer support team is here to assist you with any questions.</p>
-          <button className="px-8 py-3 bg-secondary text-white rounded-lg hover:bg-secondary/90 font-bold">
-            Contact Helpline
-          </button>
         </div>
       </section>
     </div>
