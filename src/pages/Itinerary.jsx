@@ -107,60 +107,84 @@ export default function Itinerary() {
               </div>
             </div>
 
-            {/* ESCROW PAYMENT SECTION */}
-            <div className="bg-white rounded-[2.5rem] p-8 md:p-10 shadow-sm border-2 border-[#E76F51]/20 overflow-hidden relative">
-              <div className="flex flex-col md:flex-row justify-between items-start gap-6 mb-8">
-                <div>
-                  <div className="flex items-center gap-2 mb-2">
-                    <Lock className="text-[#E76F51]" size={20} />
-                    <h2 className="text-2xl font-black text-[#355E3B]">Secure Escrow Payment</h2>
-                  </div>
-                  <p className="text-gray-500 text-sm max-w-md italic">
-                    Funds are held in a secure vault and only released after your tour begins.
-                  </p>
-                </div>
-                <div className="bg-[#F8F5F2] p-4 rounded-2xl border border-gray-100 text-center w-full md:w-auto">
-                    <p className="text-[10px] font-black uppercase text-gray-400">Total Price</p>
-                    <p className="text-2xl font-black text-[#355E3B]">KES {booking.totalPrice?.toLocaleString()}</p>
-                </div>
-              </div>
+{/* PAYMENT  ESCROW OPTIONS SECTION */}
+<div className="bg-white rounded-[2.5rem] p-8 md:p-10 shadow-sm border-2 border-[#E76F51]/20 overflow-hidden relative">
+  <div className="flex flex-col md:flex-row justify-between items-start gap-6 mb-8">
+    <div>
+      <div className="flex items-center gap-2 mb-2">
+        <Lock className="text-[#E76F51]" size={20} />
+        <h2 className="text-2xl font-black text-[#355E3B]">Secure Payment Options</h2>
+      </div>
+      <p className="text-gray-500 text-sm max-w-md italic">
+        Choose your preferred payment method to secure your booking.
+      </p>
+    </div>
+    <div className="bg-[#F8F5F2] p-4 rounded-2xl border border-gray-100 text-center w-full md:w-auto">
+        <p className="text-[10px] font-black uppercase text-gray-400">Total Price</p>
+        <p className="text-2xl font-black text-[#355E3B]">KES {booking.totalPrice?.toLocaleString()}</p>
+    </div>
+  </div>
 
-              {/* Policy Explanation */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-                <div className="space-y-2">
-                    <p className="text-xs font-bold text-[#355E3B] flex items-center gap-2">
-                      <ShieldCheck size={14} className="text-green-600"/> 1. Secure Deposit
-                    </p>
-                    <p className="text-[10px] text-gray-400 leading-relaxed">Pay via M-Pesa or Card. Funds stay with us, not the operator yet.</p>
-                </div>
-                <div className="space-y-2">
-                    <p className="text-xs font-bold text-[#355E3B] flex items-center gap-2">
-                      <QrCode size={14} className="text-[#E76F51]"/> 2. Start Code
-                    </p>
-                    <p className="text-[10px] text-gray-400 leading-relaxed">The driver must scan your unique code at pickup to trigger fund release.</p>
-                </div>
-                <div className="space-y-2">
-                    <p className="text-xs font-bold text-[#355E3B] flex items-center gap-2">
-                      <RefreshCcw size={14} className="text-blue-500"/> 3. Easy Refunds
-                    </p>
-                    <p className="text-[10px] text-gray-400 leading-relaxed">If the operator doesn't show up, your refund is processed automatically.</p>
-                </div>
-              </div>
+  {/* Policy Explanation */}
+  <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+    <div className="space-y-2">
+        <p className="text-xs font-bold text-[#355E3B] flex items-center gap-2">
+          <ShieldCheck size={14} className="text-green-600"/> 1. Secure Deposit
+        </p>
+        <p className="text-[10px] text-gray-400 leading-relaxed">Pay via M-Pesa or Card. Funds stay with us, not the operator yet.</p>
+    </div>
+    <div className="space-y-2">
+        <p className="text-xs font-bold text-[#355E3B] flex items-center gap-2">
+          <QrCode size={14} className="text-[#E76F51]"/> 2. Start Code
+        </p>
+        <p className="text-[10px] text-gray-400 leading-relaxed">The driver must scan your unique code at pickup to trigger fund release.</p>
+    </div>
+    <div className="space-y-2">
+        <p className="text-xs font-bold text-[#355E3B] flex items-center gap-2">
+          <RefreshCcw size={14} className="text-blue-500"/> 3. Easy Refunds
+        </p>
+        <p className="text-[10px] text-gray-400 leading-relaxed">If the operator doesn't show up, your refund is processed automatically.</p>
+    </div>
+  </div>
 
-              {/* Pay Now & QR Scan area */}
-              <div className="flex flex-col md:flex-row items-center gap-8 p-6 bg-[#355E3B]/5 rounded-3xl border border-[#355E3B]/10">
-                <div className="bg-white p-4 rounded-2xl shadow-sm border border-gray-100">
-                    <QrCode size={100} className="text-[#355E3B]" />
-                    <p className="text-[8px] text-center font-bold mt-2 text-gray-400 uppercase">Scan to Secure</p>
-                </div>
-                <div className="flex-1 space-y-4 text-center md:text-left">
-                    <h4 className="font-bold text-[#355E3B] text-sm">Seal your booking with Escrow</h4>
-                    <Link to={`/pay/${booking.id}`} className="inline-flex items-center gap-2 px-8 py-4 bg-[#E76F51] text-white rounded-2xl font-black shadow-lg hover:scale-105 transition-all text-sm">
-                        Pay Now via Escrow <ShieldCheck size={18} />
-                    </Link>
-                </div>
-              </div>
-            </div>
+  {/* Pay Now Options - Two Buttons */}
+  <div className="flex flex-col md:flex-row items-center gap-8 p-6 bg-[#355E3B]/5 rounded-3xl border border-[#355E3B]/10">
+    <div className="bg-white p-4 rounded-2xl shadow-sm border border-gray-100">
+        <QrCode size={100} className="text-[#355E3B]" />
+        <p className="text-[8px] text-center font-bold mt-2 text-gray-400 uppercase">Scan to Secure</p>
+    </div>
+    <div className="flex-1 space-y-4 text-center md:text-left">
+        <h4 className="font-bold text-[#355E3B] text-sm">Choose your payment method</h4>
+        <div className="flex flex-col sm:flex-row gap-3">
+          {/* PayPal Button */}
+          <Link 
+            to={`/pay/${booking.id}?method=paypal`} 
+            className="flex-1 inline-flex items-center justify-center gap-2 px-6 py-4 bg-[#0070BA] text-white rounded-2xl font-black shadow-lg hover:scale-105 transition-all text-sm"
+          >
+            <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M7.076 21.337H2.47a.641.641 0 0 1-.633-.74L4.944 3.72c.045-.3.303-.526.613-.526h5.351c2.865 0 4.905 1.455 5.304 4.24.032.216.029.437-.003.655.327-2.025 1.523-3.595 3.869-3.595h2.763c1.307 0 2.026.666 2.214 1.618.107.54.047 1.146-.168 1.748-.304.86-.902 1.556-1.694 1.985-.791.429-1.733.662-2.709.662h-2.333c-.506 0-.914.412-.94.918l-.575 6.978c-.026.506-.434.918-.94.918H9.123c-.466 0-.854-.36-.893-.823l-.154-1.829-.937 5.174a.641.641 0 0 1-.63.523z"/>
+            </svg>
+            Pay with PayPal
+          </Link>
+          
+          {/* M-Pesa Button */}
+          <Link 
+            to={`/pay/${booking.id}?method=mpesa`} 
+            className="flex-1 inline-flex items-center justify-center gap-2 px-6 py-4 bg-[#00A94F] text-white rounded-2xl font-black shadow-lg hover:scale-105 transition-all text-sm"
+          >
+            <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
+              <circle cx="12" cy="12" r="5"/>
+            </svg>
+            Pay with M-Pesa
+          </Link>
+        </div>
+        <p className="text-[10px] text-gray-400 mt-2">
+          🔒 Secure payment processing • Instant confirmation
+        </p>
+    </div>
+  </div>
+</div>
           </div>
 
           {/* RIGHT COLUMN: DRIVER, PACKING & SUPPORT */}
